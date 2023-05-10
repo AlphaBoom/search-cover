@@ -1,0 +1,16 @@
+---
+import Footer from "../components/Footer.astro";
+import BaseHead from "../components/BaseHead.astro";
+const {title} = Astro.props
+---
+<html lang="zh_CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+        <BaseHead title={title}/>
+	</head>
+	<body class="min-h-screen flex flex-col">
+		<slot/>
+		<Footer />
+	</body>
+</html>
