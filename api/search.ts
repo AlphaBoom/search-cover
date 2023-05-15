@@ -67,7 +67,7 @@ async function fetchFromBangumi(keyword: string, startCursor: number | string, p
   // params.set('type', '2')
   params.set('responseGroup', 'medium')
   params.set('start', `${startCursor}`)
-  params.set('max_results', Math.min(pageSize,25).toString())
+  params.set('max_results', Math.min(pageSize, 25).toString())
   let response: BangumiResponse = await (await fetch(url)).json()
   return response.list.map((obj) => ({
     source: SourceType.Bangumi,
@@ -95,6 +95,12 @@ export default async (request: Request) => {
       status: 400,
     })
   }
-  let results = await builtInSources[source](keyword ?? "", parseInt(startCursor, 10), parseInt(pageSize, 10))
-  return new Response(JSON.stringify(results))
+  try {
+    let results = await builtInSources[source](keyword ?? "", parseInt(startCursor, 10), parseInt(pageSize, 10))
+    return new Response(JSON.stringify(results))
+  } catch (error) {
+    return new Response("fetch failed", {
+      status: 400,
+    })
+  }
 };

@@ -5,7 +5,7 @@ export default function ListItem({ item }: { item: SearchResult }) {
         <li className="flex mb-3 space-x-3" style={{height:200}}>
             <div className="overflow-hidden rounded object-cover flex-none shadow w-36 h-48" onClick={()=>{
                 navigator.clipboard.writeText(item.imageUrl).then(()=>{
-                    alert("Copied to clipboard")
+                    alert("已复制到剪贴板")
                 })
             }}>
                 <img src={item.imageUrl} className="w-full h-full object-cover hover:scale-125 duration-150" draggable="false" loading="lazy" title="copy to clipboard"/>

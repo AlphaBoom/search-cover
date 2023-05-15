@@ -2,9 +2,9 @@ import type { SearchResult } from "../types/model";
 import GlobalConfig from "../config";
 
 type SourceInfo = {
-    source:string,
-    start:number,
-    done:boolean,
+    source: string,
+    start: number,
+    done: boolean,
 }
 
 class SearchSession {
@@ -15,7 +15,7 @@ class SearchSession {
         this.sources = Object.entries(GlobalConfig.sourceConfig)
             .filter(([_, value]) => value > 0)
             .sort((left, right) => left[1] - right[1])
-            .map(([key, _]) => ({source:key, start:0, done:false}))
+            .map(([key, _]) => ({ source: key, start: 0, done: false }))
     }
 
     static async search(query: string, pageSize: number = 20): Promise<SearchSession> {
@@ -31,15 +31,19 @@ class SearchSession {
         params.set('start_cursor', `${startCursor}`)
         params.set('page_size', this.pageSize.toString())
         params.set('source', source)
-        return (await fetch(url)).json()
+        try {
+            return await (await fetch(url)).json()
+        } catch (error) {
+            return []
+        }
     }
 
-    private udpateCache(newarr:SearchResult[]) {
+    private udpateCache(newarr: SearchResult[]) {
         this.cache = [...this.cache, ...newarr];
-        this.cache.forEach((item, index)=>{item.key = (index+1).toString()})
+        this.cache.forEach((item, index) => { item.key = (index + 1).toString() })
     }
 
-    private async fetchAndCache(page: number):Promise<void> {
+    private async fetchAndCache(page: number): Promise<void> {
         let originalLength = this.cache.length
         for (let i = 0; i < this.sources.length; i++) {
             let info = this.sources[i]
@@ -53,8 +57,8 @@ class SearchSession {
                 }
             }
         }
-        
-        if(this.cache.length <= originalLength){
+
+        if (this.cache.length <= originalLength) {
             return
         } else if (page * this.pageSize > this.cache.length) {
             await this.fetchAndCache(page)

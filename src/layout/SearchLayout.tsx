@@ -38,8 +38,10 @@ export default function SearchLayout() {
         let store = storeRef.current
         if (filterCategory == Category.ALL){
             setSearchResult(store.result)
-        } else {
+        } else if (store.result.length > 0){
             setSearchResult(store.result.filter((item)=>item.category==filterCategory))
+        } else {
+            setSearchResult([])
         }
     }
     const onKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
