@@ -69,6 +69,9 @@ async function fetchFromBangumi(keyword: string, startCursor: number | string, p
   params.set('start', `${startCursor}`)
   params.set('max_results', Math.min(pageSize, 25).toString())
   let response: BangumiResponse = await (await fetch(url)).json()
+  if (response.list == null) {
+    return []
+  }
   return response.list.map((obj) => ({
     source: SourceType.Bangumi,
     category: bangumiSubjectTypeToCategory(obj.type),
