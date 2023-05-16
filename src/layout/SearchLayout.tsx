@@ -61,7 +61,8 @@ export default function SearchLayout() {
     return (
         <div className="max-w-5xl w-screen bg-slate-50 mx-auto p-3 h-screen flex flex-col">
             <SearchBar onKeyDown={onKeyDown} />
-            <div className="flex space-x-4 mt-3 grow h-0">
+            <p className={"text-emerald-600 ms-12 mt-1 text-sm mb-1 " + (storeRef.current.result.length > 0 ? "visible" : "invisible")} >数量：{searchResult.length}</p>
+            <div className="flex space-x-4 grow h-0">
                 <SearchFilterLayout filterOptions={categoryOptions} filterCategory={filterCategory} onSelectedChange={filterCategoryChangeListener} />
                 <div id='SearchResultContainer' className="flex-auto relative overflow-y-auto">
                     {

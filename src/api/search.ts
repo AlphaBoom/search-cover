@@ -72,7 +72,7 @@ class SearchSession {
             return this.cache.slice((page - 1) * this.pageSize, page * this.pageSize)
         }
         await this.fetchAndCache(page)
-        return this.cache.slice((page-1) * this.pageSize)
+        return this.cache.slice((page-1) * this.pageSize, page * this.pageSize)
     }
 
     close() {
